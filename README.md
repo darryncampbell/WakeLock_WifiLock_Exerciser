@@ -12,6 +12,7 @@ Small application to test functionality of WifiLock and WakeLock on Android
 
 ## Notes
 
+- Uncomment the annotated line in onCreate() to create a separate wake lock on launch
 - Tested on TC51
 - Would never pass PlayStore criteria as includes `ACTION_REQUEST_IGNORE_BATTERY_OPTIMIZATIONS`
 - Make sure nothing else on your device holds wake locks before running tests
