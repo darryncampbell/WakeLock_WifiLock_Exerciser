@@ -1,0 +1,14 @@
+<resources>
+    <string name="app_name">WakeLock / WifiLock Tester</string>
+    <string name="action_start_service">Start Service</string>
+    <string name="action_acquire_wake_lock">Acquire Wake Lock</string>
+    <string name="action_release_wake_lock">Release Wake Lock</string>
+    <string name="action_acquire_wifi_lock">Acquire WiFi Lock</string>
+    <string name="action_release_wifi_lock">Release WiFi Lock</string>
+    <string name="action_stop_service">Stop Service</string>
+    <string-array name="spinnerTimeoutEntries">
+        <item>1 second</item>
+        <item>10 seconds</item>
+        <item>20 seconds</item>
+    </string-array>
+</resources>
