@@ -22,6 +22,7 @@ import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.Spinner;
 import android.widget.TextView;
+import android.widget.Toast;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -63,7 +64,7 @@ public class MainActivity extends AppCompatActivity {
                 WAKE_LOCK_TAG_2);
 
         //  Uncomment this line to acquire a wake lock without user intervention
-        acquireWakeLock(wakeLock2);
+        //acquireWakeLock(wakeLock2);
 
         configureBatteryOptimisation(false);
 
@@ -206,6 +207,13 @@ public class MainActivity extends AppCompatActivity {
             timeout = 10000;
         else if (spinnerTimeout.getSelectedItemId() == 2)
             timeout = 20000;
+        //  Because the beep holds a wake lock, do not allow this to proceed with 1 second
+        if (bBeep && timeout == 1000)
+        {
+            Toast.makeText(this, "Beep holds a partial wake lock for a few seconds after each beep therefore this configuration is not advised", Toast.LENGTH_LONG).show();
+            disableUIElements(false);
+            return;
+        }
         MyIntentService.shouldContinue = true;
         Intent msgIntent = new Intent(MainActivity.this, MyIntentService.class);
 //        msgIntent.putExtra(MyIntentService.REQUEST_POST_ADDRESS, "http://192.168.0.2:8082/script.php");
