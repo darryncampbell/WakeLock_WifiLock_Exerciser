@@ -31,6 +31,9 @@ public class MyIntentService extends IntentService {
 
     public MyIntentService() {
         super("MyIntentService");
+        //  Set to true to have IntentService START_REDELIVER_INTENT (https://android.googlesource.com/platform/frameworks/base/+/refs/heads/master/core/java/android/app/IntentService.java#99)
+        //  default is false
+        setIntentRedelivery(false);
     }
 
     @Override
