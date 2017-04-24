@@ -10,6 +10,12 @@ Small application to test functionality of WifiLock and WakeLock on Android
     adb shell dumpsys power
     adb shell dumpsys wifi
 
+## Optionally, force the device power state to idle as follows:
+
+    adb shell dumpsys battery unplug
+    adb shell dumpsys deviceidle force-idle
+    (verify with) adb shell dumpsys device idle (& observe mState)
+
 ## Notes
 
 - Uncomment the annotated line in onCreate() to create a separate wake lock on launch
