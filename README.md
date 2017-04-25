@@ -14,7 +14,7 @@ Small application to test functionality of WifiLock and WakeLock on Android
 
     adb shell dumpsys battery unplug
     adb shell dumpsys deviceidle force-idle
-    (verify with) adb shell dumpsys device idle (& observe mState)
+    (verify with) adb shell dumpsys deviceidle (& observe mState)
 
 ## Notes
 
