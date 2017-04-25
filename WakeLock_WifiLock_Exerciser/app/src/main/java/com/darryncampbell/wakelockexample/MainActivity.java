@@ -24,6 +24,8 @@ import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import java.io.IOException;
+
 public class MainActivity extends AppCompatActivity {
 
     public static final String LOG_TAG = "Wake Lock Test";
@@ -34,6 +36,7 @@ public class MainActivity extends AppCompatActivity {
     private PowerManager.WakeLock wakeLock2 = null;
     private WifiManager.WifiLock wifiLock = null;
     ResponseReceiver receiver;
+    MyHTTPServer httpServer = null;
 
     private TextView txtOutput = null;
 
@@ -50,6 +53,8 @@ public class MainActivity extends AppCompatActivity {
         final Button btnWifiLockRelease = (Button) findViewById(R.id.btnReleaseWifiLock);
         final Button btnBackgroundServiceStart = (Button) findViewById(R.id.btnStartService);
         final Button btnBackgroundServiceStop = (Button) findViewById(R.id.btnStopService);
+        final Button btnStartServer = (Button) findViewById(R.id.btnStartServer);
+        final Button btnStopServer = (Button) findViewById(R.id.btnStopServer);
         final Button btnConfigureBatteryOptimisation = (Button) findViewById(R.id.btnConfigureBatteryOptimization);
 
         WifiManager wm = (WifiManager) getApplicationContext().getSystemService(Context.WIFI_SERVICE);
@@ -104,6 +109,26 @@ public class MainActivity extends AppCompatActivity {
                 //  We are not going for 100% thread handling amazement here
                 updateUI("Stopping Background service (please wait up to 20 seconds)");
                 stopBackgroundService();
+            }
+        });
+        btnStartServer.setOnClickListener(new View.OnClickListener() {
+            public void onClick(View v) {
+                try {
+                    int port = 8080;
+                    httpServer = new MyHTTPServer(port);
+                    updateUI("HTTP Server running on: " + MyHTTPServer.getIPAddress(true) + ", port: " + port + ".  Use browser on desktop");
+                } catch (IOException e) {
+                    updateUI("Error starting server");
+                }
+            }
+        });
+        btnStopServer.setOnClickListener(new View.OnClickListener() {
+            public void onClick(View v) {
+                if (httpServer != null) {
+                    httpServer.stop();
+                    httpServer = null;
+                    updateUI("HTTP server stopped");
+                }
             }
         });
         btnConfigureBatteryOptimisation.setOnClickListener(new View.OnClickListener() {

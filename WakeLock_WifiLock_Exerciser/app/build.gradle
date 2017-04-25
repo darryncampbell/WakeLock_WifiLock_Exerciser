@@ -29,4 +29,5 @@ dependencies {
     compile 'com.android.support:design:25.3.1'
     testCompile 'junit:junit:4.12'
     compile group: 'cz.msebera.android' , name: 'httpclient', version: '4.4.1.1'
+    compile group: 'org.nanohttpd', name: 'nanohttpd', version: '2.3.1'
 }
