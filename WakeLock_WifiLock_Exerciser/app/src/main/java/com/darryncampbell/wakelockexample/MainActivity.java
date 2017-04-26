@@ -72,6 +72,8 @@ public class MainActivity extends AppCompatActivity {
         //acquireWakeLock(wakeLock2);
 
         configureBatteryOptimisation(false);
+        disableUIElements(false);
+        disableUIElementsServer(false);
 
         //  Button handlers
         btnWakeLockAcquire.setOnClickListener(new View.OnClickListener() {
@@ -107,7 +109,7 @@ public class MainActivity extends AppCompatActivity {
         btnBackgroundServiceStop.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
                 //  We are not going for 100% thread handling amazement here
-                updateUI("Stopping Background service (please wait up to 20 seconds)");
+                updateUI("Stopping Background service (please wait up to 30 seconds)");
                 stopBackgroundService();
             }
         });
@@ -117,6 +119,7 @@ public class MainActivity extends AppCompatActivity {
                     int port = 8080;
                     httpServer = new MyHTTPServer(port);
                     updateUI("HTTP Server running on: " + MyHTTPServer.getIPAddress(true) + ", port: " + port + ".  Use browser on desktop");
+                    disableUIElementsServer(true);
                 } catch (IOException e) {
                     updateUI("Error starting server");
                 }
@@ -128,6 +131,7 @@ public class MainActivity extends AppCompatActivity {
                     httpServer.stop();
                     httpServer = null;
                     updateUI("HTTP server stopped");
+                    disableUIElementsServer(false);
                 }
             }
         });
@@ -291,17 +295,34 @@ public class MainActivity extends AppCompatActivity {
     public void disableUIElements(boolean disable)
     {
         final Button btnBackgroundServiceStart = (Button) findViewById(R.id.btnStartService);
+        final Button btnBackgroundServiceStop = (Button) findViewById(R.id.btnStopService);
         final EditText editPostAddress = (EditText) findViewById(R.id.editIpAddress);
         final CheckBox beepCheck = (CheckBox) findViewById(R.id.checkBeep);
         final CheckBox postCheck = (CheckBox) findViewById(R.id.checkPost);
         final Spinner spinnerTimeout = (Spinner) findViewById(R.id.spinnerTimeout);
         final Button btnConfigureBatteryOptimisation = (Button) findViewById(R.id.btnConfigureBatteryOptimization);
         btnBackgroundServiceStart.setEnabled(!disable);
+        btnBackgroundServiceStop.setEnabled(disable);
         editPostAddress.setEnabled(!disable);
         beepCheck.setEnabled(!disable);
         postCheck.setEnabled(!disable);
         spinnerTimeout.setEnabled(!disable);
         btnConfigureBatteryOptimisation.setEnabled(!disable);
+    }
+
+    public void disableUIElementsServer(boolean serverStarted)
+    {
+        final Button btnStartServer = (Button) findViewById(R.id.btnStartServer);
+        final Button btnStopServer = (Button) findViewById(R.id.btnStopServer);
+        if (serverStarted)
+        {
+            btnStartServer.setEnabled(false);
+            btnStopServer.setEnabled(true);
+        }
+        else {
+            btnStartServer.setEnabled(true);
+            btnStopServer.setEnabled(false);
+        }
     }
 
     public class ResponseReceiver extends BroadcastReceiver {
