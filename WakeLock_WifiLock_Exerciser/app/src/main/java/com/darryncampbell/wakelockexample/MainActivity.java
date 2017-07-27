@@ -1,5 +1,7 @@
 package com.darryncampbell.wakelockexample;
 
+import android.app.AlarmManager;
+import android.app.PendingIntent;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
@@ -25,6 +27,10 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import java.io.IOException;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
+import java.util.Date;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -142,6 +148,7 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
+        //setAlarm();
     }
 
     @Override
@@ -221,6 +228,17 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
+    void setAlarm()
+    {
+        AlarmManager am = (AlarmManager) getSystemService(Context.ALARM_SERVICE);
+        int ALARM_TYPE = AlarmManager.RTC_WAKEUP;
+        int TWO_SECONDS = 2000;
+        long fireDelay = new Date().getTime() + TWO_SECONDS;
+        Intent alarmFiredIntent = new Intent(MainActivity.this, MyAlarmHandler.class);
+        PendingIntent piAlarmFiredIntent = PendingIntent.getService(this, 0, alarmFiredIntent, 0);
+        am.setExact(ALARM_TYPE, fireDelay, piAlarmFiredIntent);
+    }
+
     void startBackgroundService()
     {
         disableUIElements(true);
@@ -278,7 +296,6 @@ public class MainActivity extends AppCompatActivity {
                 startActivity(intent);
             }
         }
-
     }
 
     public void updateUI(String msg) {
@@ -331,8 +348,17 @@ public class MainActivity extends AppCompatActivity {
         @Override
         public void onReceive(Context context, Intent intent)
         {
-            updateUI("Service has stopped");
-            disableUIElements(false);
+            if (intent != null && intent.hasExtra("source") && intent.getStringExtra("source").equalsIgnoreCase("alarm"))
+            {
+                DateFormat df = new SimpleDateFormat("EEE, d MMM yyyy, HH:mm:ss");
+                String theTime = df.format(Calendar.getInstance().getTime());
+                updateUI("Alarm Fired: " + theTime);
+                setAlarm();
+            }
+            else {
+                updateUI("Service has stopped");
+                disableUIElements(false);
+            }
         }
     }
 

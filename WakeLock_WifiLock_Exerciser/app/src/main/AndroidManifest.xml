@@ -16,8 +16,8 @@
         android:theme="@style/AppTheme">
         <activity
             android:name=".MainActivity"
-            android:screenOrientation="portrait"
             android:label="@string/app_name"
+            android:screenOrientation="portrait"
             android:theme="@style/AppTheme.NoActionBar">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -28,6 +28,9 @@
 
         <service
             android:name=".MyIntentService"
+            android:exported="false" />
+        <service
+            android:name=".MyAlarmHandler"
             android:exported="false"></service>
     </application>
 
