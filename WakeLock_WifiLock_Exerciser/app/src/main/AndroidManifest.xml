@@ -6,6 +6,7 @@
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
     <uses-permission android:name="android.permission.REQUEST_IGNORE_BATTERY_OPTIMIZATIONS" />
+    <uses-permission android:name="com.symbol.emdk.permission.EMDK" />
 
     <application
         android:allowBackup="true"
@@ -25,6 +26,8 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+
+        <uses-library android:name="com.symbol.emdk" android:required="false" />
 
         <service
             android:name=".MyIntentService"

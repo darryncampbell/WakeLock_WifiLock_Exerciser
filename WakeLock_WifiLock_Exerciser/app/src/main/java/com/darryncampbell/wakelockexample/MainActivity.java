@@ -43,6 +43,8 @@ public class MainActivity extends AppCompatActivity {
     private WifiManager.WifiLock wifiLock = null;
     ResponseReceiver receiver;
     MyHTTPServer httpServer = null;
+    Boolean emdkIsAvailable = false;
+    EMDKProxy emdkProxy = null;
 
     private TextView txtOutput = null;
 
@@ -62,6 +64,8 @@ public class MainActivity extends AppCompatActivity {
         final Button btnStartServer = (Button) findViewById(R.id.btnStartServer);
         final Button btnStopServer = (Button) findViewById(R.id.btnStopServer);
         final Button btnConfigureBatteryOptimisation = (Button) findViewById(R.id.btnConfigureBatteryOptimization);
+        final Button btnBatteryOptimizationViaMXEnable = (Button) findViewById(R.id.btnEnableBatteryOptimizationWithMX);
+        final Button btnBatteryOptimizationViaMXDisable = (Button) findViewById(R.id.btnDisableBatteryOptimizationWithMX);
 
         WifiManager wm = (WifiManager) getApplicationContext().getSystemService(Context.WIFI_SERVICE);
         if (wm != null) {
@@ -73,6 +77,10 @@ public class MainActivity extends AppCompatActivity {
                 WAKE_LOCK_TAG_1);
         wakeLock2 = powerManager.newWakeLock(PowerManager.PARTIAL_WAKE_LOCK,
                 WAKE_LOCK_TAG_2);
+
+        emdkProxy = new EMDKProxy(this);
+        if (emdkProxy.isEMDKAvailable(this))
+            emdkIsAvailable = true;
 
         //  Uncomment this line to acquire a wake lock without user intervention
         //acquireWakeLock(wakeLock2);
@@ -147,8 +155,40 @@ public class MainActivity extends AppCompatActivity {
                 configureBatteryOptimisation(true);
             }
         });
+        btnBatteryOptimizationViaMXDisable.setOnClickListener(new View.OnClickListener() {
+            public void onClick(View v) {
+                if (!emdkIsAvailable)
+                    updateUI("This function is only available on Zebra devices");
+                else {
+                    updateUI("Disabling battery optimizations Via MX");
+                    if(emdkProxy.setBatteryOptimizations(false))
+                    {
+                        updateUI("Battery optimizations disabled via MX successfully");
+                    }
+                    else
+                        updateUI("Failed to set battery optimizations Via MX.  Do you have MX7+ and API 24+?");
+                }
+            }
+        });
+        btnBatteryOptimizationViaMXEnable.setOnClickListener(new View.OnClickListener() {
+            public void onClick(View v) {
+                if (!emdkIsAvailable)
+                    updateUI("This function is only available on Zebra devices");
+                else {
+                    updateUI("Enabling battery optimizations Via MX");
+                    if(emdkProxy.setBatteryOptimizations(true))
+                    {
+                        updateUI("Battery optimizations enabled via MX successfully");
+                    }
+                    else
+                        updateUI("Failed to set battery optimizations Via MX.  Do you have MX7+ and API 24+?");
+                }
+            }
+        });
+
 
         //setAlarm();
+
     }
 
     @Override
@@ -167,6 +207,17 @@ public class MainActivity extends AppCompatActivity {
         super.onPause();
         LocalBroadcastManager localBroadcastManager = LocalBroadcastManager.getInstance(this);
         localBroadcastManager.unregisterReceiver(receiver);
+    }
+
+    @Override
+    protected void onStop()
+    {
+        super.onStop();
+        if (emdkProxy != null)
+        {
+            emdkProxy.Close();
+            emdkProxy = null;
+        }
     }
 
     @Override
@@ -353,7 +404,7 @@ public class MainActivity extends AppCompatActivity {
                 DateFormat df = new SimpleDateFormat("EEE, d MMM yyyy, HH:mm:ss");
                 String theTime = df.format(Calendar.getInstance().getTime());
                 updateUI("Alarm Fired: " + theTime);
-                setAlarm();
+                //setAlarm();
             }
             else {
                 updateUI("Service has stopped");

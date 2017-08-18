@@ -19,7 +19,14 @@ android {
     }
 }
 
+
+
 dependencies {
+    Properties properties = new Properties()
+    properties.load(project.rootProject.file('local.properties').newDataInputStream())
+    def sdkDir = properties.getProperty('sdk.dir')
+    provided fileTree(include: ['com.symbol.emdk.jar'], dir: sdkDir+'/add-ons/addon-symbol_emdk-symbol-23/libs/')
+
     compile fileTree(dir: 'libs', include: ['*.jar'])
     androidTestCompile('com.android.support.test.espresso:espresso-core:2.2.2', {
         exclude group: 'com.android.support', module: 'support-annotations'
