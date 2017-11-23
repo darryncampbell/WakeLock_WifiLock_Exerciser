@@ -11,4 +11,6 @@
         <item>10 seconds</item>
         <item>20 seconds</item>
     </string-array>
+    <string name="message_battery_optimization_error">Failed to set battery optimizations Via MX.  Do you have MX7+, API 24+ and an MX that supports Battery Optimization?</string>
+    <string name="message_zebra_devices_only">This function is only available on Zebra devices running MX7+</string>
 </resources>

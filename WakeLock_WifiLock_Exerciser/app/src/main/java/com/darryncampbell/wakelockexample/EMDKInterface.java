@@ -44,17 +44,44 @@ public class EMDKInterface implements EMDKManager.EMDKListener {
     public boolean setBatteryOptimizations(Boolean bEnabled) {
         //  Apply the battery optimization profile
         String[] modifyData = new String[1];
-        modifyData[0] = giveProfileForBatteryOptimizations(!bEnabled, context.getPackageName());
-        EMDKResults results = profileManager.processProfile("BatteryOptimizationProfile",
-                ProfileManager.PROFILE_FLAG.SET, modifyData);
-
-        if (results.statusCode == EMDKResults.STATUS_CODE.CHECK_XML)
+        EMDKResults results = null;
+        if (bEnabled)
         {
-            //  todo did this work??
+            //  Remove from whitelist / turn on optimization
+            results = profileManager.processProfile("BatteryOptimizationProfileAddApps",
+                    ProfileManager.PROFILE_FLAG.SET, modifyData);
         }
         else
         {
-            Toast.makeText(context, "Failed to change battery optimizations.  Do you have MX7+ and running M or above?", Toast.LENGTH_LONG).show();
+            //  Add to whitelist / turn off optimization
+            results = profileManager.processProfile("BatteryOptimizationProfileRemoveApps",
+                    ProfileManager.PROFILE_FLAG.SET, modifyData);
+        }
+
+        if (results.statusCode == EMDKResults.STATUS_CODE.SUCCESS)
+        {
+            Toast.makeText(context, "Successfuly updated battery optimizations whitelist", Toast.LENGTH_LONG).show();
+            return true;
+        }
+        else if (results.statusCode == EMDKResults.STATUS_CODE.CHECK_XML)
+        {
+            if (results.getStatusString().contains("characteristic-error"))
+            {
+                //  Setting has failed to be applied
+                Log.e(LOG_TAG, results.getStatusString() + "-" + results.toString());
+                Toast.makeText(context, context.getResources().getString(R.string.message_battery_optimization_error), Toast.LENGTH_LONG).show();
+                return false;
+            }
+            else
+            {
+                //  Setting was successfully applied
+                Toast.makeText(context, "Successfuly updated battery optimizations whitelist", Toast.LENGTH_LONG).show();
+                return true;
+            }
+        }
+        else
+        {
+            Toast.makeText(context, context.getResources().getString(R.string.message_battery_optimization_error), Toast.LENGTH_LONG).show();
         }
         return false;
     }
@@ -71,48 +98,6 @@ public class EMDKInterface implements EMDKManager.EMDKListener {
         Log.i(LOG_TAG, "EMDK has closed and is no longer ready");
         this.emdkManager = null;
         this.profileManager = null;
-    }
-
-    private String giveProfileForBatteryOptimizations(Boolean bDisable, String packageName)
-    {
-        if (bDisable)
-        {
-            return "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n" +
-                    "<wap-provisioningdoc>\n" +
-                    "  <characteristic type=\"ProfileInfo\">\n" +
-                    "    <parm name=\"created_wizard_version\" value=\"6.6.0\"/>\n" +
-                    "  </characteristic>\n" +
-                    "  <characteristic type=\"Profile\">\n" +
-                    "    <parm name=\"ProfileName\" value=\"BatteryOptimizationProfile\"/>\n" +
-                    "    <parm name=\"ModifiedDate\" value=\"2017-08-18 09:07:59\"/>\n" +
-                    "    <parm name=\"TargetSystemVersion\" value=\"7.0\"/>\n" +
-                    "    <characteristic type=\"AppMgr\" version=\"7.0\">\n" +
-                    "      <parm name=\"emdk_name\" value=\"AppManagerBatteryOptimizations\"/>\n" +
-                    "      <parm name=\"Action\" value=\"BatteryOptimization\"/>\n" +
-                    "      <parm name=\"AddPackageNames\" value=" + packageName + "/>\n" +
-                    "    </characteristic>\n" +
-                    "  </characteristic>\n" +
-                    "</wap-provisioningdoc>\n";
-        }
-        else
-        {
-            return "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n" +
-                    "<wap-provisioningdoc>\n" +
-                    "  <characteristic type=\"ProfileInfo\">\n" +
-                    "    <parm name=\"created_wizard_version\" value=\"6.6.0\"/>\n" +
-                    "  </characteristic>\n" +
-                    "  <characteristic type=\"Profile\">\n" +
-                    "    <parm name=\"ProfileName\" value=\"BatteryOptimizationProfile\"/>\n" +
-                    "    <parm name=\"ModifiedDate\" value=\"2017-08-18 09:07:59\"/>\n" +
-                    "    <parm name=\"TargetSystemVersion\" value=\"7.0\"/>\n" +
-                    "    <characteristic type=\"AppMgr\" version=\"7.0\">\n" +
-                    "      <parm name=\"emdk_name\" value=\"AppManagerBatteryOptimizations\"/>\n" +
-                    "      <parm name=\"Action\" value=\"BatteryOptimization\"/>\n" +
-                    "      <parm name=\"RemovePackageNames\" value=" + packageName + "/>\n" +
-                    "    </characteristic>\n" +
-                    "  </characteristic>\n" +
-                    "</wap-provisioningdoc>\n";
-        }
     }
 
 }

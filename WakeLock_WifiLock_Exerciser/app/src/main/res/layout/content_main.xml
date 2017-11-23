@@ -135,7 +135,6 @@
         android:layout_marginTop="8dp"
         android:text="Background Service Actions"
         app:layout_constraintTop_toBottomOf="@+id/btnStartService"
-        app:layout_constraintLeft_toRightOf="@+id/textView7"
         android:layout_marginLeft="0dp" />
 
     <TextView
@@ -266,28 +265,28 @@
         android:layout_marginLeft="8dp"
         app:layout_constraintLeft_toLeftOf="parent"
         android:layout_marginTop="8dp"
-        app:layout_constraintTop_toBottomOf="@+id/btnDisableBatteryOptimizationWithMX" />
+        android:layout_marginBottom="8dp"
+        app:layout_constraintTop_toBottomOf="@+id/btnEnableBatteryOptimizationWithMX" />
 
     <Button
         android:id="@+id/btnDisableBatteryOptimizationWithMX"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Disable (MX)"
+        android:text="Add to Whitelist (MX)"
         android:layout_marginTop="8dp"
         app:layout_constraintTop_toBottomOf="@+id/btnConfigureBatteryOptimization"
         android:layout_marginLeft="8dp"
         app:layout_constraintLeft_toLeftOf="parent" />
 
-    <Button
-        android:id="@+id/btnEnableBatteryOptimizationWithMX"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Enable (MX)"
-        android:layout_marginTop="8dp"
-        app:layout_constraintTop_toBottomOf="@+id/btnConfigureBatteryOptimization"
-        app:layout_constraintLeft_toRightOf="@+id/btnDisableBatteryOptimizationWithMX"
-        android:layout_marginLeft="8dp" />
-
+        <Button
+            android:id="@+id/btnEnableBatteryOptimizationWithMX"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Remove from Whitelist (MX)"
+            android:layout_marginTop="8dp"
+            app:layout_constraintTop_toBottomOf="@+id/btnDisableBatteryOptimizationWithMX"
+            android:layout_marginLeft="8dp"
+            app:layout_constraintLeft_toLeftOf="parent" />
 
 </android.support.constraint.ConstraintLayout>
 

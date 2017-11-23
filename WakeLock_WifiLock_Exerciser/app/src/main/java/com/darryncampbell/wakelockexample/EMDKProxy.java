@@ -47,7 +47,7 @@ public class EMDKProxy {
         if (emdk == null)
         {
             Log.w(LOG_TAG, "Attempted to set Battery Optimizations but EMDK is not available");
-            Toast.makeText(context, "Functionality only supported on Zebra devices running MX 7+", Toast.LENGTH_LONG).show();
+            Toast.makeText(context, context.getResources().getString(R.string.message_zebra_devices_only), Toast.LENGTH_LONG).show();
             return false;
         }
         else

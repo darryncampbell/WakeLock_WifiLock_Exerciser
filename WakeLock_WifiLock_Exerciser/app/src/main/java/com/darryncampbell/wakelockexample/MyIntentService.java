@@ -20,6 +20,8 @@ import cz.msebera.android.httpclient.client.methods.HttpPost;
 import cz.msebera.android.httpclient.impl.client.DefaultHttpClient;
 import cz.msebera.android.httpclient.message.BasicNameValuePair;
 
+import static com.darryncampbell.wakelockexample.MainActivity.LOG_TAG;
+
 public class MyIntentService extends IntentService {
 
     public static final String REQUEST_POST_ADDRESS = "server";
@@ -52,6 +54,7 @@ public class MyIntentService extends IntentService {
                     if (requestPost);
                     {
                         count++;
+                        Log.i(LOG_TAG, "Posting Data " + count);
                         postData(requestString, count);
                     }
                     if (requestBeep)
@@ -91,9 +94,9 @@ public class MyIntentService extends IntentService {
             HttpResponse response = httpclient.execute(httppost);
 
         } catch (ClientProtocolException e) {
-            Log.d(MainActivity.LOG_TAG, e.getMessage());
+            Log.d(LOG_TAG, e.getMessage());
         } catch (IOException e) {
-            Log.d(MainActivity.LOG_TAG, e.getMessage());
+            Log.d(LOG_TAG, e.getMessage());
         }
     }
 }

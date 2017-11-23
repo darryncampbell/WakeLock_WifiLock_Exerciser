@@ -3,7 +3,12 @@ Small application to test functionality of WifiLock and WakeLock on Android
 
 ##  EMDK Dependency
 
-Application **will** run on both Zebra and non-Zebra Android devices.  When running on Zebra devices the application will take advantage of MX to enable or disable battery optimizations via buttons on the UI.  This does require EMDK to be installed on your build machine (https://www.zebra.com/us/en/support-downloads/software/developer-tools/emdk-for-android.html) **Version 6.6.x or higher** 
+Application **will** run on both Zebra and non-Zebra Android devices.  When running on Zebra devices the application will take advantage of MX to enable or disable battery optimizations via buttons on the UI.  This does require:
+* EMDK to be installed on your build machine (https://www.zebra.com/us/en/support-downloads/software/developer-tools/emdk-for-android.html) **Version 7.x or higher** (though I had it working with EMDK 6.6 in testing)
+* A device that supports MX7.x which as the numbering implies will be at least Nougat.  You can check the MX level from Settings --> About --> SW components --> MX (MXMF version)
+* A device whose MX supports BatteryOptimization.  Some features of MX are not available on Zebra's value tier devices (e.g. TC2x).  Please check http://techdocs.zebra.com/mx/ for compatibility.
+
+_This only affects the bottom two buttons on the UI which refer to controlling BatteryOptimizations via MX_ 
 
 ## Repository includes a small python 3 server to receive posts from the application
 

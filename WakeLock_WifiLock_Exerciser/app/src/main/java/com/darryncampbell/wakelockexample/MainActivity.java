@@ -78,10 +78,6 @@ public class MainActivity extends AppCompatActivity {
         wakeLock2 = powerManager.newWakeLock(PowerManager.PARTIAL_WAKE_LOCK,
                 WAKE_LOCK_TAG_2);
 
-        emdkProxy = new EMDKProxy(this);
-        if (emdkProxy.isEMDKAvailable(this))
-            emdkIsAvailable = true;
-
         //  Uncomment this line to acquire a wake lock without user intervention
         //acquireWakeLock(wakeLock2);
 
@@ -130,8 +126,9 @@ public class MainActivity extends AppCompatActivity {
         btnStartServer.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
                 try {
-                    int port = 8080;
-                    httpServer = new MyHTTPServer(port);
+                    //int port = 8080;
+                    int port = 9000;
+                    httpServer = new MyHTTPServer(port, getApplicationContext());
                     updateUI("HTTP Server running on: " + MyHTTPServer.getIPAddress(true) + ", port: " + port + ".  Use browser on desktop");
                     disableUIElementsServer(true);
                 } catch (IOException e) {
@@ -158,7 +155,7 @@ public class MainActivity extends AppCompatActivity {
         btnBatteryOptimizationViaMXDisable.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
                 if (!emdkIsAvailable)
-                    updateUI("This function is only available on Zebra devices");
+                    updateUI(getResources().getString(R.string.message_zebra_devices_only));
                 else {
                     updateUI("Disabling battery optimizations Via MX");
                     if(emdkProxy.setBatteryOptimizations(false))
@@ -166,14 +163,14 @@ public class MainActivity extends AppCompatActivity {
                         updateUI("Battery optimizations disabled via MX successfully");
                     }
                     else
-                        updateUI("Failed to set battery optimizations Via MX.  Do you have MX7+ and API 24+?");
+                        updateUI(getResources().getString(R.string.message_battery_optimization_error));
                 }
             }
         });
         btnBatteryOptimizationViaMXEnable.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
                 if (!emdkIsAvailable)
-                    updateUI("This function is only available on Zebra devices");
+                    updateUI(getResources().getString(R.string.message_zebra_devices_only));
                 else {
                     updateUI("Enabling battery optimizations Via MX");
                     if(emdkProxy.setBatteryOptimizations(true))
@@ -181,7 +178,7 @@ public class MainActivity extends AppCompatActivity {
                         updateUI("Battery optimizations enabled via MX successfully");
                     }
                     else
-                        updateUI("Failed to set battery optimizations Via MX.  Do you have MX7+ and API 24+?");
+                        updateUI(getResources().getString(R.string.message_battery_optimization_error));
                 }
             }
         });
@@ -207,6 +204,15 @@ public class MainActivity extends AppCompatActivity {
         super.onPause();
         LocalBroadcastManager localBroadcastManager = LocalBroadcastManager.getInstance(this);
         localBroadcastManager.unregisterReceiver(receiver);
+    }
+
+    @Override
+    protected void onStart()
+    {
+        super.onStart();
+        emdkProxy = new EMDKProxy(this);
+        if (emdkProxy.isEMDKAvailable(this))
+            emdkIsAvailable = true;
     }
 
     @Override
