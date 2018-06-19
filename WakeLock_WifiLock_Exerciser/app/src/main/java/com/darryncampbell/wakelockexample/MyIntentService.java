@@ -51,7 +51,7 @@ public class MyIntentService extends IntentService {
             {
                 ToneGenerator toneG = new ToneGenerator(AudioManager.STREAM_ALARM, 20);
                 for(;;) {
-                    if (requestPost);
+                    if (requestPost)
                     {
                         count++;
                         Log.i(LOG_TAG, "Posting Data " + count);
