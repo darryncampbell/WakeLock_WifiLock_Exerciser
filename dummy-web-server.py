@@ -3,6 +3,7 @@
 import socket
 from http.server import BaseHTTPRequestHandler, HTTPServer
 import time
+import json
 
 hostName = ""
 hostPort = 8082
@@ -21,8 +22,10 @@ class MyServer(BaseHTTPRequestHandler):
 
 		content_length = int(self.headers['Content-Length']) # <--- Gets the size of data
 		post_data = self.rfile.read(content_length) # <--- Gets the data itself
+		post_data_string = post_data.decode("utf-8");
 		print( "post data: |*********************|" )
-		print( "post data: |** ", post_data, " **|" )
+		#print( "post data: |** ", post_data, " **|" )
+		print( "post data: | ", post_data_string.split('&',1), "")
 		print( "post data: |*********************|" )
 		self.send_response(200)
 

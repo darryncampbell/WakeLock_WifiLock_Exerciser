@@ -1,7 +1,7 @@
 apply plugin: 'com.android.application'
 
 android {
-    compileSdkVersion 26
+    compileSdkVersion 28
     //  The compile versions are left commented for testing on 'O' where the background optimization
     //  option does not appear for apps compiled with 26+
 //    compileSdkVersion 25

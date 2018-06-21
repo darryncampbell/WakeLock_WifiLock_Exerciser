@@ -1,6 +1,8 @@
 package com.darryncampbell.wakelockexample;
 
 import android.app.IntentService;
+import android.app.usage.UsageStatsManager;
+import android.content.Context;
 import android.content.Intent;
 import android.media.AudioManager;
 import android.media.ToneGenerator;
@@ -55,7 +57,29 @@ public class MyIntentService extends IntentService {
                     {
                         count++;
                         Log.i(LOG_TAG, "Posting Data " + count);
-                        postData(requestString, count);
+                        String message = "";
+                        if (android.os.Build.VERSION.SDK_INT >= 28) {
+                            //  For Android P, output the current app standby bucket
+                            UsageStatsManager usageStatsManager = (UsageStatsManager)getSystemService(Context.USAGE_STATS_SERVICE);
+                            int appStandbyBucket = usageStatsManager.getAppStandbyBucket();
+                            if (appStandbyBucket <= UsageStatsManager.STANDBY_BUCKET_ACTIVE) {
+                                message = "AppStandbyBucket_is_ACTIVE";
+                            }
+                            else if (appStandbyBucket <= UsageStatsManager.STANDBY_BUCKET_WORKING_SET) {
+                                message = "AppStandbyBucket_is_WORKING_SET";
+                            }
+                            else if (appStandbyBucket <= UsageStatsManager.STANDBY_BUCKET_FREQUENT) {
+                                message = "AppStandbyBucket_is_FREQUENT";
+                            }
+                            else if (appStandbyBucket <= UsageStatsManager.STANDBY_BUCKET_RARE) {
+                                message = "AppStandbyBucket_is_RARE";
+                            }
+                            else {
+                                message = "AppStandbyBucket_is_unrecognised";
+                            }
+                        }
+
+                        postData(requestString, count, message);
                     }
                     if (requestBeep)
                     {
@@ -81,13 +105,14 @@ public class MyIntentService extends IntentService {
         }
     }
 
-    public void postData(String server, long count) {
+    public void postData(String server, long count, String message) {
         HttpClient httpclient = new DefaultHttpClient();
         HttpPost httppost = new HttpPost(server);
         try {
             // Add your data
-            List<NameValuePair> nameValuePairs = new ArrayList<NameValuePair>(2);
+            List<NameValuePair> nameValuePairs = new ArrayList<NameValuePair>(3);
             nameValuePairs.add(new BasicNameValuePair("id", count + ""));
+            nameValuePairs.add(new BasicNameValuePair("message", message));
             httppost.setEntity(new UrlEncodedFormEntity(nameValuePairs));
 
             // Execute HTTP Post Request
