@@ -6,8 +6,6 @@ package com.darryncampbell.wakelockexample;
 
 import android.content.Context;
 import android.content.Intent;
-import android.text.format.Time;
-import android.util.Log;
 
 import java.io.IOException;
 import java.net.InetAddress;
@@ -18,8 +16,6 @@ import java.util.Calendar;
 import java.util.Collections;
 import java.util.List;
 import fi.iki.elonen.NanoHTTPD;
-
-import static com.darryncampbell.wakelockexample.MainActivity.LOG_TAG;
 
 public class MyHTTPServer extends NanoHTTPD {
 

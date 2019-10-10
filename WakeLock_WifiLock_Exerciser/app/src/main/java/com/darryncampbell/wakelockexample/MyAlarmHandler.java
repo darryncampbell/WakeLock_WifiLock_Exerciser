@@ -5,7 +5,7 @@ import android.app.IntentService;
 import android.app.PendingIntent;
 import android.content.Intent;
 import android.content.Context;
-import android.support.v4.content.LocalBroadcastManager;
+import androidx.localbroadcastmanager.content.LocalBroadcastManager;
 import android.util.Log;
 
 import java.text.DateFormat;

@@ -6,8 +6,9 @@ import android.content.Context;
 import android.content.Intent;
 import android.media.AudioManager;
 import android.media.ToneGenerator;
-import android.support.v4.content.LocalBroadcastManager;
 import android.util.Log;
+
+import androidx.localbroadcastmanager.content.LocalBroadcastManager;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -37,7 +38,7 @@ public class MyIntentService extends IntentService {
         super("MyIntentService");
         //  Set to true to have IntentService START_REDELIVER_INTENT (https://android.googlesource.com/platform/frameworks/base/+/refs/heads/master/core/java/android/app/IntentService.java#99)
         //  default is false
-        setIntentRedelivery(false);
+        setIntentRedelivery(true);
     }
 
     @Override

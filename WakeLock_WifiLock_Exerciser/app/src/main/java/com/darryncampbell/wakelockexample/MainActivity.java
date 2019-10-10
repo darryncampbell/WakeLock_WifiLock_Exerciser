@@ -12,9 +12,6 @@ import android.os.Build;
 import android.os.Bundle;
 import android.os.PowerManager;
 import android.provider.Settings;
-import android.support.v4.content.LocalBroadcastManager;
-import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -26,6 +23,10 @@ import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
+import androidx.localbroadcastmanager.content.LocalBroadcastManager;
+
 import java.io.IOException;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
@@ -35,9 +36,9 @@ import java.util.Date;
 public class MainActivity extends AppCompatActivity {
 
     public static final String LOG_TAG = "Wake Lock Test";
-    private static final String WAKE_LOCK_TAG_1 = "WakeLockExampleAppTag1";
-    private static final String WAKE_LOCK_TAG_2 = "WakeLockExampleAppTag2";
-    private static final String WIFI_LOCK_TAG = "WifiLockExampleAppTag";
+    private static final String WAKE_LOCK_TAG_1 = "WakeLockExampleApp:Tag1";
+    private static final String WAKE_LOCK_TAG_2 = "WakeLockExampleApp:Tag2";
+    private static final String WIFI_LOCK_TAG = "WifiLockExampleApp:Tag";
     private PowerManager.WakeLock wakeLock1 = null;
     private PowerManager.WakeLock wakeLock2 = null;
     private WifiManager.WifiLock wifiLock = null;
