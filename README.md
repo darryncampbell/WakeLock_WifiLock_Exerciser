@@ -30,5 +30,6 @@ _This only affects the bottom two buttons on the UI which refer to controlling B
 - Uncomment the annotated line in onCreate() to create a separate wake lock on launch
 - Tested on TC51
 - Would never pass PlayStore criteria as includes `ACTION_REQUEST_IGNORE_BATTERY_OPTIMIZATIONS`
+  - Update (16/Mar/20): This app got removed from the Play Store for "Violation of the Broken Functionality policy".  This was possibly because the older version in the Play Store had an issue checking for the EMDK on non-Zebra devices running Android 10 but it's not clear - it could also be because I requested this action). 
 - Make sure nothing else on your device holds wake locks before running tests
 - Zebra devices also have additional settings to keep wifi on during standby (under advanced WiFi settings)
