@@ -2,8 +2,8 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
-      <module fileurl="file://$PROJECT_DIR$/WakeLock_WifiLock_Exerciser.iml" filepath="$PROJECT_DIR$/WakeLock_WifiLock_Exerciser.iml" group="WakeLock_WifiLock_Exerciser" />
-      <module fileurl="file://$PROJECT_DIR$/app/app.iml" filepath="$PROJECT_DIR$/app/app.iml" group="WakeLock_WifiLock_Exerciser/app" />
+      <module fileurl="file://$PROJECT_DIR$/WakeLock_WifiLock_Exerciser.iml" filepath="$PROJECT_DIR$/WakeLock_WifiLock_Exerciser.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/app/WakeLock_WifiLock_Exerciser.app.iml" filepath="$PROJECT_DIR$/.idea/modules/app/WakeLock_WifiLock_Exerciser.app.iml" />
     </modules>
   </component>
 </project>
