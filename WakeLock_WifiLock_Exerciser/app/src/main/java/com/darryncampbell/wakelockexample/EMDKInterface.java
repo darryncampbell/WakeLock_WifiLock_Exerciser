@@ -45,6 +45,9 @@ public class EMDKInterface implements EMDKManager.EMDKListener {
         //  Apply the battery optimization profile
         String[] modifyData = new String[1];
         EMDKResults results = null;
+        if (profileManager == null)
+            return false; //  EMDK initialisation error can cause this
+
         if (bEnabled)
         {
             //  Remove from whitelist / turn on optimization

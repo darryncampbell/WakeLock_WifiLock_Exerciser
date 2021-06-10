@@ -8,6 +8,10 @@
     <uses-permission android:name="android.permission.REQUEST_IGNORE_BATTERY_OPTIMIZATIONS" />
     <uses-permission android:name="com.symbol.emdk.permission.EMDK" />
 
+    <queries>
+        <package android:name="com.symbol.emdk.emdkservice" />
+    </queries>
+
     <application
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher_dcc"
